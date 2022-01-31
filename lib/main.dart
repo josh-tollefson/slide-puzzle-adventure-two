@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:slide_puzzle_adventure/puzzle/puzzle_page.dart';
+
+import 'models/game_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      title: 'Slide Puzzle App',
-      home: PuzzlePage(title: 'Slide Puzzle Adventure'),
+    return Provider<GameState>(
+      create: (context) => GameState(),
+      child: MaterialApp(
+        title: 'Slide Puzzle App',
+        home: PuzzlePage(title: 'Slide Puzzle Adventure'),
+      ),
     );
   }
 }
