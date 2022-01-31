@@ -14,4 +14,9 @@ abstract class _GameState with Store {
   /// Number of remaining tile swaps allowed
   @observable
   int numberOfMovesLeft = -1;
+
+  @action
+  void executeTileMove() {
+    numberOfMovesLeft--;
+  }
 }

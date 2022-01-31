@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:slide_puzzle_adventure/models/game_state.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
 
 class PuzzleTile extends StatefulWidget {
@@ -21,11 +23,13 @@ class _PuzzleTile extends State<PuzzleTile> {
 
   @override
   Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context);
+
     return MouseRegion(
         onEnter: (PointerEvent details) => setState(() => isHovering = true),
         onExit: (PointerEvent details) => setState(() => isHovering = false),
         child: GestureDetector(
-          // onTap: () => context.read<PuzzleBloc>().add(TileTapped(widget.tile)),
+          onTap: () => gameState.executeTileMove(),
           child: Stack(children: [
             // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
             if (!widget.tile.isWhitespace)
