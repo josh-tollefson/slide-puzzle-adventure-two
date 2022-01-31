@@ -1,13 +1,20 @@
+import 'package:mobx/mobx.dart';
 import 'package:slide_puzzle_adventure/models/position.dart';
 
-/// Path on the opposite side of the tile
-/// Used to get the paths of neighboring tiles
+// To generate the part file run:
+//   flutter pub run build_runner watch --delete-conflicting-outputs
+//
+// More generally: A run build_runner B --delete-conflicting-outputs
+// - Replace A with `flutter pub` (for flutter apps) or `dart` (for pure dart)
+// - Replace B with 'build' (forces a one off build) or 'watch' (builds whenever files change)
+part 'tile.g.dart';
+
 Map<int,int> oppositePath = {0:5, 1:4, 2:7, 3:6, 4:1, 5:0, 6:3, 7:2};
 
-/// Model for a puzzle tile.
-class Tile {
-  /// {@macro tile}
-  const Tile({
+class Tile = _Tile with _$Tile;
+
+abstract class _Tile with Store {
+  _Tile({
     this.value = 0,
     required this.startPosition,
     required this.currentPosition,
@@ -24,7 +31,8 @@ class Tile {
   final Position startPosition;
 
   /// The current 2D [Position] of the [Tile].
-  final Position currentPosition;
+  @observable
+  Position currentPosition;
 
   /// Dictionary containing all paths
   /// --- 0 --- 1 ---
@@ -47,27 +55,4 @@ class Tile {
 
   /// Denotes if the [Tile] is the whitespace tile or not.
   final bool isWhitespace;
-
-  /// Create a copy of this [Tile] with updated current position.
-  Tile copyWith({required Position currentPosition}) {
-    return Tile(
-      value: value,
-      startPosition: startPosition,
-      currentPosition: currentPosition,
-      paths: paths,
-      markers: markers,
-      image: image,
-      isWhitespace: isWhitespace,
-    );
-  }
-
-  List<Object> get props => [
-    value,
-    startPosition,
-    currentPosition,
-    paths,
-    markers,
-    image,
-    isWhitespace,
-  ];
 }
