@@ -1,1 +1,1 @@
-export 'home_view.dart';
+export 'puzzle_page.dart';

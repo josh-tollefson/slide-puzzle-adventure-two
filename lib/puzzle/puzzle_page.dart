@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:slide_puzzle_adventure/components/puzzle_header.dart';
 import 'package:slide_puzzle_adventure/components/puzzle_grid.dart';
-import 'package:slide_puzzle_adventure/components/puzzle_buttons.dart';
+import 'package:slide_puzzle_adventure/components/puzzle_button_section.dart';
 import 'package:slide_puzzle_adventure/theme/themes.dart';
 
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class PuzzlePage extends StatelessWidget {
+  const PuzzlePage({Key? key, required this.title}) : super(key: key);
 
   final theme = const AntiqueMapTheme();
   final String title;
