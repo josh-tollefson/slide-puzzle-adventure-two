@@ -1,33 +1,27 @@
-/// {@template position}
-/// 2-dimensional position model.
-///
-/// (1, 1) is the top left corner of the board.
-/// {@endtemplate}
-class Position {
-  /// {@macro position}
-  const Position({required this.x, required this.y});
+import 'package:mobx/mobx.dart';
 
+// To generate the part file run:
+//   flutter pub run build_runner watch --delete-conflicting-outputs
+//
+// More generally: A run build_runner B --delete-conflicting-outputs
+// - Replace A with `flutter pub` (for flutter apps) or `dart` (for pure dart)
+// - Replace B with 'build' (forces a one off build) or 'watch' (builds whenever files change)
+part 'position.g.dart';
+
+class Position = _Position with _$Position;
+
+abstract class _Position with Store {
+  _Position({
+    required this.x,
+    required this.y,
+  });
   /// The x position.
-  final int x;
+  @observable
+  int x = 0;
 
   /// The y position.
-  final int y;
-
-  List<Object> get props => [x, y];
-
-  int compareTo(Position other) {
-    if (y < other.y) {
-      return -1;
-    } else if (y > other.y) {
-      return 1;
-    } else {
-      if (x < other.x) {
-        return -1;
-      } else if (x > other.x) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-  }
+  @observable
+  int y = 0;
 }
+
+

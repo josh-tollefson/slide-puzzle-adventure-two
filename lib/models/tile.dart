@@ -9,8 +9,8 @@ class Tile {
   /// {@macro tile}
   const Tile({
     this.value = 0,
-    this.startPosition = const Position(x: 0, y: 0),
-    this.currentPosition = const Position(x: 0, y: 0),
+    required this.startPosition,
+    required this.currentPosition,
     this.paths = const {},
     this.markers = const {},
     this.image = '',

@@ -7,7 +7,7 @@ import 'package:slide_puzzle_adventure/theme/themes.dart';
 
 
 class PuzzlePage extends StatelessWidget {
-  const PuzzlePage({Key? key, required this.title}) : super(key: key);
+  PuzzlePage({Key? key, required this.title}) : super(key: key);
 
   final theme = const AntiqueMapTheme();
   final String title;
@@ -23,7 +23,7 @@ class PuzzlePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             PuzzleHeader(),
             Gap(50),
             SizedBox.square(
