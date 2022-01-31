@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Provider<GameState>(
-      create: (context) => GameState(),
+      create: (context) => GameState()..initializeLevel(),
       child: MaterialApp(
         title: 'Slide Puzzle App',
         home: PuzzlePage(title: 'Slide Puzzle Adventure'),
