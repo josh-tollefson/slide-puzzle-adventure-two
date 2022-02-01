@@ -29,7 +29,7 @@ class _PuzzleTile extends State<PuzzleTile> {
         onEnter: (PointerEvent details) => setState(() => isHovering = true),
         onExit: (PointerEvent details) => setState(() => isHovering = false),
         child: GestureDetector(
-          onTap: () => gameState.executeTileMove(widget.tile.value),
+          onTap: () => gameState.handleTileTapped(widget.tile.value),
           child: Stack(children: [
             // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
             if (!widget.tile.isWhitespace)

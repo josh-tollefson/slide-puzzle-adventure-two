@@ -51,10 +51,24 @@ abstract class _GameState with Store {
   }
 
   @action
-  void executeTileMove(int value) {
+  void handleTileTapped(int value) {
+    _decrementMoveCounter(value);
+    _swapTiles(value);
+  }
+
+  void _decrementMoveCounter(int value) {
     Tile clickedTile = tiles.singleWhere((tile) => value == tile.value);
     if (!clickedTile.isWhitespace) {
       numberOfMovesLeft--;
     }
+  }
+
+  void _swapTiles(int value) {
+    int clickedTileIndex = tiles.indexWhere((tile) => value == tile.value);
+    int whiteSpaceTileIndex = tiles.indexWhere((tile) => tile.isWhitespace);
+
+    final clickedTile = tiles[clickedTileIndex];
+    tiles[clickedTileIndex] = tiles[whiteSpaceTileIndex];
+    tiles[whiteSpaceTileIndex] = clickedTile;
   }
 }
