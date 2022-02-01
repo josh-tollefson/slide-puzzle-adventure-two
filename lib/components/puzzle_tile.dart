@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_puzzle_adventure/models/game_state.dart';
@@ -45,6 +47,55 @@ class _PuzzleTile extends State<PuzzleTile> {
     }
   }
 
+  Alignment _arrowAlignment(Explorer explorer) {
+    switch (explorer.currentPath) {
+      case 0:
+        return const Alignment(-0.5, -0.5);
+      case 1:
+        return const Alignment(0.5, -0.5);
+      case 2:
+        return const Alignment(0.5, -0.5);
+      case 3:
+        return const Alignment(0.5, 0.5);
+      case 4:
+        return const Alignment(0.5, 0.5);
+      case 5:
+        return const Alignment(-0.5, 0.5);
+      case 6:
+        return const Alignment(-0.5, 0.5);
+      case 7:
+        return const Alignment(-0.5, -0.5);
+      default:
+        return const Alignment(0, 0);
+    }
+  }
+
+  double _arrowRotation(Explorer explorer)  {
+    /// direction the explorer is facing
+    final directionality = explorer.forwardDirection ? 1 : -1;
+
+    switch (explorer.currentPath) {
+      case 0:
+        return pi / 180 * 90 * directionality;
+      case 1:
+        return pi / 180 * 90 * directionality;
+      case 2:
+        return pi / 180 * (90 + 90 * directionality);
+      case 3:
+        return pi / 180 * (90 + 90 * directionality);
+      case 4:
+        return pi / 180 * -90 * directionality;
+      case 5:
+        return pi / 180 * -90 * directionality;
+      case 6:
+        return pi / 180 * (90 - 90 * directionality);
+      case 7:
+        return pi / 180 * (90 - 90 * directionality);
+      default:
+        return 0;
+    }
+  }
+
   Widget _showDash(Explorer explorer) {
     return Container(
       alignment: _explorerAlignment(explorer),
@@ -56,6 +107,23 @@ class _PuzzleTile extends State<PuzzleTile> {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+
+  Widget _showArrow(Explorer explorer) {
+    return Container(
+        alignment: _arrowAlignment(explorer),
+        child: Transform.rotate(
+          angle: _arrowRotation(explorer),
+          child: SizedBox(
+            width: 30,
+            height: 30,
+            child: Image.asset(
+              '../assets/images/arrow.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        )
     );
   }
 
@@ -81,6 +149,8 @@ class _PuzzleTile extends State<PuzzleTile> {
               ),
             if (gameState.explorer.currentTileValue == widget.tile.value)
               _showDash(gameState.explorer),
+            if (gameState.explorer.currentTileValue == widget.tile.value)
+              _showArrow(gameState.explorer),
             if (isHovering)
               Container(
                 margin: EdgeInsets.zero,
