@@ -9,18 +9,18 @@ part of 'explorer.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Explorer on _Explorer, Store {
-  final _$currentTileAtom = Atom(name: '_Explorer.currentTile');
+  final _$currentTileValueAtom = Atom(name: '_Explorer.currentTileValue');
 
   @override
-  Tile get currentTile {
-    _$currentTileAtom.reportRead();
-    return super.currentTile;
+  int get currentTileValue {
+    _$currentTileValueAtom.reportRead();
+    return super.currentTileValue;
   }
 
   @override
-  set currentTile(Tile value) {
-    _$currentTileAtom.reportWrite(value, super.currentTile, () {
-      super.currentTile = value;
+  set currentTileValue(int value) {
+    _$currentTileValueAtom.reportWrite(value, super.currentTileValue, () {
+      super.currentTileValue = value;
     });
   }
 
@@ -72,7 +72,7 @@ mixin _$Explorer on _Explorer, Store {
   @override
   String toString() {
     return '''
-currentTile: ${currentTile},
+currentTileValue: ${currentTileValue},
 currentPath: ${currentPath},
 offBoard: ${offBoard},
 forwardDirection: ${forwardDirection}

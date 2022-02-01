@@ -39,6 +39,21 @@ mixin _$GameState on _GameState, Store {
     });
   }
 
+  final _$explorerAtom = Atom(name: '_GameState.explorer');
+
+  @override
+  Explorer get explorer {
+    _$explorerAtom.reportRead();
+    return super.explorer;
+  }
+
+  @override
+  set explorer(Explorer value) {
+    _$explorerAtom.reportWrite(value, super.explorer, () {
+      super.explorer = value;
+    });
+  }
+
   final _$_GameStateActionController = ActionController(name: '_GameState');
 
   @override
@@ -56,7 +71,8 @@ mixin _$GameState on _GameState, Store {
   String toString() {
     return '''
 numberOfMovesLeft: ${numberOfMovesLeft},
-tiles: ${tiles}
+tiles: ${tiles},
+explorer: ${explorer}
     ''';
   }
 }

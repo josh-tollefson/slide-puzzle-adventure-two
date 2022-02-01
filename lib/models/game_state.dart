@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:mobx/mobx.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
+import 'package:slide_puzzle_adventure/models/explorer.dart';
 
 // To generate the part file run:
 //   flutter pub run build_runner watch --delete-conflicting-outputs
@@ -20,6 +21,15 @@ abstract class _GameState with Store {
 
   @observable
   ObservableList<Tile> tiles = ObservableList();
+
+  @observable
+  Explorer explorer = Explorer(
+    currentTileValue: 1,
+    currentPath: 0,
+    destinationTileValue: 1,
+    destinationPath: 3,
+    forwardDirection: true,
+  );
 
   int get puzzleDimension => sqrt(tiles.length).toInt();
 

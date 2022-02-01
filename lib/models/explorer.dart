@@ -14,30 +14,30 @@ class Explorer = _Explorer with _$Explorer;
 
 abstract class _Explorer with Store {
   _Explorer({
-    required this.currentTile,
+    required this.currentTileValue,
     required this.currentPath,
-    required this.destinationTile,
+    required this.destinationTileValue,
     required this.destinationPath,
     this.offBoard = false,
     required this.forwardDirection,
   });
 
-  /// The current [Tile] the explorer is on.
+  /// The value of the [Tile] the explorer is currently on.
   @observable
-  Tile currentTile;
+  int currentTileValue;
 
   /// The path value of the currentTile the explorer is on.
   @observable
   int currentPath;
 
-  /// The [Tile] the explorer must end on.
-  final Tile destinationTile;
+  /// The value of the [Tile] the explorer must end on.
+  final int destinationTileValue;
 
   /// The path value of the destinationTile the explorer must end on.
   final int destinationPath;
 
-  /// the next path on the current tile following the current path
-  int get nextPath => currentTile.paths[currentPath] ?? currentPath;
+  // /// the next path on the current tile following the current path
+  // int get nextPath => currentTile.paths[currentPath] ?? currentPath;
 
   /// Indicates whether the explorer is off the board.
   @observable
@@ -51,6 +51,6 @@ abstract class _Explorer with Store {
 
   /// indicated whether the explorer reached its final destination.
   bool get reachedDestination =>
-  (currentTile.value == destinationTile.value) &
-  (currentPath == destinationPath);
+    (currentTileValue == destinationTileValue) &
+    (currentPath == destinationPath);
 }
