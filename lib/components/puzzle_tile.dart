@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_puzzle_adventure/models/game_state.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
@@ -131,37 +132,41 @@ class _PuzzleTile extends State<PuzzleTile> {
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
 
-    return MouseRegion(
-        onEnter: (PointerEvent details) => setState(() => isHovering = true),
-        onExit: (PointerEvent details) => setState(() => isHovering = false),
-        child: GestureDetector(
-          onTap: () => gameState.handleTileTapped(widget.tile.value),
-          child: Stack(children: [
-            // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
-            if (!widget.tile.isWhitespace)
-              SizedBox(
-                width: 250,
-                height: 250,
-                child: Image.asset(
-                  widget.tile.image,
-                  fit: BoxFit.cover,
-                ),
+    return Observer(
+      builder: (context) {
+        return MouseRegion(
+            onEnter: (PointerEvent details) => setState(() => isHovering = true),
+            onExit: (PointerEvent details) => setState(() => isHovering = false),
+            child: GestureDetector(
+              onTap: () => gameState.handleTileTapped(widget.tile.value),
+              child: Stack(children: [
+                // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
+                if (!widget.tile.isWhitespace)
+                  SizedBox(
+                    width: 250,
+                    height: 250,
+                    child: Image.asset(
+                      widget.tile.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                if (gameState.explorer.currentTileValue == widget.tile.value)
+                  _showDash(gameState.explorer),
+                if (gameState.explorer.currentTileValue == widget.tile.value)
+                  _showArrow(gameState.explorer),
+                if (isHovering)
+                  Container(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent),
+                    ),
+                  ),
+              ],
               ),
-            if (gameState.explorer.currentTileValue == widget.tile.value)
-              _showDash(gameState.explorer),
-            if (gameState.explorer.currentTileValue == widget.tile.value)
-              _showArrow(gameState.explorer),
-            if (isHovering)
-              Container(
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent),
-                ),
-              ),
-          ],
-          ),
-        ),
+            ),
+        );
+      }
     );
   }
 }

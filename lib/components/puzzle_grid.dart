@@ -22,7 +22,7 @@ class PuzzleGrid extends StatelessWidget {
           crossAxisCount: 2,
           mainAxisSpacing: 0,
           crossAxisSpacing: 0,
-          children: gameState.tiles.map((e) => PuzzleTile(tile: e)).toList(),
+          children: gameState.tiles.map((t) => PuzzleTile(tile: t)).toList(),
         );
       }
     );

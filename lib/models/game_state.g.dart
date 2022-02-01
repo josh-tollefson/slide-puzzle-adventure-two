@@ -79,6 +79,17 @@ mixin _$GameState on _GameState, Store {
   }
 
   @override
+  void handleMoveExplorer() {
+    final _$actionInfo = _$_GameStateActionController.startAction(
+        name: '_GameState.handleMoveExplorer');
+    try {
+      return super.handleMoveExplorer();
+    } finally {
+      _$_GameStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 numberOfMovesLeft: ${numberOfMovesLeft},
