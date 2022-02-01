@@ -68,6 +68,17 @@ mixin _$GameState on _GameState, Store {
   }
 
   @override
+  void handleReset() {
+    final _$actionInfo = _$_GameStateActionController.startAction(
+        name: '_GameState.handleReset');
+    try {
+      return super.handleReset();
+    } finally {
+      _$_GameStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 numberOfMovesLeft: ${numberOfMovesLeft},

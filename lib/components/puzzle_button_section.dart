@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:slide_puzzle_adventure/models/game_state.dart';
 import 'package:slide_puzzle_adventure/theme/themes.dart';
 
 class PuzzleButtonsSection extends StatelessWidget {
@@ -123,10 +125,12 @@ class _ResetPuzzleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context);
+
     return _PuzzleButton(
       textColor: theme.textColor,
       backgroundColor: theme.buttonColor,
-      onPressed: () => {},
+      onPressed: () => gameState.handleReset(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

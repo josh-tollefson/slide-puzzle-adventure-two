@@ -35,6 +35,14 @@ abstract class _GameState with Store {
 
   void initializeLevel() {
     numberOfMovesLeft = 3;
+    explorer = Explorer(
+      currentTileValue: 1,
+      currentPath: 0,
+      destinationTileValue: 1,
+      destinationPath: 3,
+      forwardDirection: true,
+    );
+    tiles = ObservableList();
     tiles.addAll(
       [
         Tile(
@@ -60,6 +68,11 @@ abstract class _GameState with Store {
   @action
   void handleTileTapped(int value) {
     _swapTiles(value);
+  }
+
+  @action
+  void handleReset() {
+    initializeLevel();
   }
 
   void _swapTiles(int value) {
