@@ -24,10 +24,39 @@ mixin _$GameState on _GameState, Store {
     });
   }
 
+  final _$tilesAtom = Atom(name: '_GameState.tiles');
+
+  @override
+  ObservableList<Tile> get tiles {
+    _$tilesAtom.reportRead();
+    return super.tiles;
+  }
+
+  @override
+  set tiles(ObservableList<Tile> value) {
+    _$tilesAtom.reportWrite(value, super.tiles, () {
+      super.tiles = value;
+    });
+  }
+
+  final _$_GameStateActionController = ActionController(name: '_GameState');
+
+  @override
+  void handleTileTapped(int value) {
+    final _$actionInfo = _$_GameStateActionController.startAction(
+        name: '_GameState.handleTileTapped');
+    try {
+      return super.handleTileTapped(value);
+    } finally {
+      _$_GameStateActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-numberOfMovesLeft: ${numberOfMovesLeft}
+numberOfMovesLeft: ${numberOfMovesLeft},
+tiles: ${tiles}
     ''';
   }
 }

@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:slide_puzzle_adventure/models/position.dart';
 
 // To generate the part file run:
 //   flutter pub run build_runner watch --delete-conflicting-outputs
@@ -16,8 +15,6 @@ class Tile = _Tile with _$Tile;
 abstract class _Tile with Store {
   _Tile({
     this.value = 0,
-    required this.startPosition,
-    required this.currentPosition,
     this.paths = const {},
     this.markers = const {},
     this.image = '',
@@ -26,13 +23,6 @@ abstract class _Tile with Store {
 
   /// Value representing the correct position of [Tile] in a list.
   final int value;
-
-  /// The starting 2D [Position] of the [Tile].
-  final Position startPosition;
-
-  /// The current 2D [Position] of the [Tile].
-  @observable
-  Position currentPosition;
 
   /// Dictionary containing all paths
   /// --- 0 --- 1 ---

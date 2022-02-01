@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:mobx/mobx.dart';
-import 'package:slide_puzzle_adventure/models/position.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
 
 // To generate the part file run:
@@ -25,46 +24,32 @@ abstract class _GameState with Store {
   int get puzzleDimension => sqrt(tiles.length).toInt();
 
   void initializeLevel() {
-    tiles.addAll([
-      Tile(
-        value: 1,
-        image: 'assets/images/tiles/tile_1.png',
-        startPosition: Position(x: 0, y: 0),
-        currentPosition: Position(x: 0, y: 0),
-      ),
-      Tile(
-        value: 2,
-        image: 'assets/images/tiles/tile_2.png',
-        startPosition: Position(x: 0, y: 0),
-        currentPosition: Position(x: 0, y: 0),
-      ),
-      Tile(
-        value: 3,
-        image: 'assets/images/tiles/tile_3.png',
-        startPosition: Position(x: 0, y: 0),
-        currentPosition: Position(x: 0, y: 0),
-      ),
-      Tile(
-        value: 4,
-        startPosition: Position(x: 0, y: 0),
-        currentPosition: Position(x: 0, y: 0),
-        isWhitespace: true,
-      ),
-    ]
+    numberOfMovesLeft = 3;
+    tiles.addAll(
+      [
+        Tile(
+          value: 1,
+          image: 'assets/images/tiles/tile_1.png',
+        ),
+        Tile(
+          value: 2,
+          image: 'assets/images/tiles/tile_2.png',
+        ),
+        Tile(
+          value: 3,
+          image: 'assets/images/tiles/tile_3.png',
+        ),
+        Tile(
+          value: 4,
+          isWhitespace: true,
+        ),
+      ]
     );
   }
 
   @action
   void handleTileTapped(int value) {
-    _decrementMoveCounter(value);
     _swapTiles(value);
-  }
-
-  void _decrementMoveCounter(int value) {
-    Tile clickedTile = tiles.singleWhere((tile) => value == tile.value);
-    if (!clickedTile.isWhitespace) {
-      numberOfMovesLeft--;
-    }
   }
 
   void _swapTiles(int value) {
@@ -72,6 +57,7 @@ abstract class _GameState with Store {
     int whiteSpaceTileIndex = tiles.indexWhere((tile) => tile.isWhitespace);
 
     if (_isNeighbor(clickedTileIndex, whiteSpaceTileIndex)) {
+      numberOfMovesLeft--;
       final clickedTile = tiles[clickedTileIndex];
       tiles[clickedTileIndex] = tiles[whiteSpaceTileIndex];
       tiles[whiteSpaceTileIndex] = clickedTile;
