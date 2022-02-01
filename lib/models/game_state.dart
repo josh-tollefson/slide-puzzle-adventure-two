@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:mobx/mobx.dart';
 import 'package:slide_puzzle_adventure/models/position.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
@@ -19,6 +21,8 @@ abstract class _GameState with Store {
 
   @observable
   ObservableList<Tile> tiles = ObservableList();
+
+  int get puzzleDimension => sqrt(tiles.length).toInt();
 
   void initializeLevel() {
     tiles.addAll([
@@ -67,8 +71,34 @@ abstract class _GameState with Store {
     int clickedTileIndex = tiles.indexWhere((tile) => value == tile.value);
     int whiteSpaceTileIndex = tiles.indexWhere((tile) => tile.isWhitespace);
 
-    final clickedTile = tiles[clickedTileIndex];
-    tiles[clickedTileIndex] = tiles[whiteSpaceTileIndex];
-    tiles[whiteSpaceTileIndex] = clickedTile;
+    if (_isNeighbor(clickedTileIndex, whiteSpaceTileIndex)) {
+      final clickedTile = tiles[clickedTileIndex];
+      tiles[clickedTileIndex] = tiles[whiteSpaceTileIndex];
+      tiles[whiteSpaceTileIndex] = clickedTile;
+    }
+  }
+
+  /// returns the row and col from the tile's index in the tiles list
+  List<int> _getTileRowCol(int tileIndex) {
+    final row = tileIndex ~/ puzzleDimension;
+    final col = tileIndex % puzzleDimension;
+
+    return [row, col];
+  }
+
+  /// returns true if tile1 and tile2 are orthogonally adjacent
+  /// based on the index in the tiles list
+  bool _isNeighbor(int tileIndex1, int tileIndex2) {
+    final rowCol1 = _getTileRowCol(tileIndex1);
+    final rowCol2 = _getTileRowCol(tileIndex2);
+    final deltaRow = rowCol1[0] - rowCol2[0];
+    final deltaCol = rowCol1[1] - rowCol2[1];
+
+    if ((deltaRow.abs() == 1 && deltaCol.abs() == 0) ||
+        (deltaRow.abs() == 0 && deltaCol.abs() == 1)) {
+      return true;
+    }
+
+    return false;
   }
 }
