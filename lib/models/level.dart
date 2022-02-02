@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:slide_puzzle_adventure/models/tile.dart';
@@ -18,22 +19,27 @@ enum LevelStatus { incomplete, complete, lost, offboard }
 class Level = _Level with _$Level;
 
 abstract class _Level with Store {
-  _Level();
+  _Level({
+    required this.value,
+    required this.numberOfMovesLeft,
+    required this.tiles,
+    required this.explorer,
+  });
 
   /// level number
-  int value = -1;
+  int value;
 
   /// Number of remaining tile swaps allowed
   @observable
-  int numberOfMovesLeft = -1;
+  int numberOfMovesLeft;
 
   /// tiles in level
   @observable
-  ObservableList<Tile> tiles = ObservableList();
+  ObservableList<Tile> tiles;
 
   /// explorer in level
   @observable
-  Explorer explorer = Explorer();
+  Explorer explorer;
 
   /// dimension of the level, e.g. 2x2
   int get puzzleDimension => sqrt(tiles.length).toInt();

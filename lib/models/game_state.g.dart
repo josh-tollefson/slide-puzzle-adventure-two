@@ -24,6 +24,21 @@ mixin _$GameState on _GameState, Store {
     });
   }
 
+  final _$levelNumberAtom = Atom(name: '_GameState.levelNumber');
+
+  @override
+  int get levelNumber {
+    _$levelNumberAtom.reportRead();
+    return super.levelNumber;
+  }
+
+  @override
+  set levelNumber(int value) {
+    _$levelNumberAtom.reportWrite(value, super.levelNumber, () {
+      super.levelNumber = value;
+    });
+  }
+
   final _$_GameStateActionController = ActionController(name: '_GameState');
 
   @override
@@ -73,7 +88,8 @@ mixin _$GameState on _GameState, Store {
   @override
   String toString() {
     return '''
-level: ${level}
+level: ${level},
+levelNumber: ${levelNumber}
     ''';
   }
 }
