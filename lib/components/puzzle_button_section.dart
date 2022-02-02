@@ -99,10 +99,12 @@ class _ReverseExplorerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context);
+
     return _PuzzleButton(
       textColor: theme.textColor,
       backgroundColor: theme.buttonColor,
-      onPressed: () => {},
+      onPressed: () => gameState.handleReverseExplorer(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

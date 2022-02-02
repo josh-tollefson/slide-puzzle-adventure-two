@@ -39,8 +39,7 @@ abstract class _GameState with Store {
     if (explorer.offBoard) {
       return PuzzleStatus.offboard;
     }
-    else if ((explorer.destinationTileValue == explorer.currentTileValue) &&
-        (explorer.destinationPath == explorer.currentPath)) {
+    else if (explorer.reachedDestination) {
       return PuzzleStatus.complete;
     }
     else if (numberOfMovesLeft < 0) {
@@ -56,8 +55,8 @@ abstract class _GameState with Store {
     explorer = Explorer(
       currentTileValue: 1,
       currentPath: 7,
-      destinationTileValue: 1,
-      destinationPath: 3,
+      destinationTileValue: 3,
+      destinationPath: 2,
       interiorDirection: true,
     );
     tiles = ObservableList();
@@ -88,7 +87,9 @@ abstract class _GameState with Store {
 
   @action
   void handleTileTapped(int value) {
-    _swapTiles(value);
+    if (numberOfMovesLeft >= 0) {
+      _swapTiles(value);
+    }
   }
 
   @action
@@ -100,6 +101,12 @@ abstract class _GameState with Store {
   void handleMoveExplorer() {
     _moveExplorer();
   }
+
+  @action
+  void handleReverseExplorer() {
+    explorer.interiorDirection = !explorer.interiorDirection;
+  }
+
 
   /// Swap the given (clicked) tile with the whitespace tile in tiles list
   void _swapTiles(int value) {
@@ -161,6 +168,9 @@ abstract class _GameState with Store {
       }
       else {
         _moveExplorerOnce();
+        if (explorer.reachedDestination) {
+          break;
+        }
       }
     }
   }

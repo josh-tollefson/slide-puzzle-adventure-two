@@ -25,8 +25,8 @@ class _PuzzleTile extends State<PuzzleTile> {
 
   bool isHovering = false;
 
-  Alignment _explorerAlignment(Explorer explorer) {
-    switch (explorer.currentPath) {
+  Alignment _explorerAlignment(int path) {
+    switch (path) {
       case 0:
         return const Alignment(-0.5, -1.1);
       case 1:
@@ -48,8 +48,8 @@ class _PuzzleTile extends State<PuzzleTile> {
     }
   }
 
-  Alignment _arrowAlignment(Explorer explorer) {
-    switch (explorer.currentPath) {
+  Alignment _arrowAlignment(int path) {
+    switch (path) {
       case 0:
         return const Alignment(-0.5, -0.5);
       case 1:
@@ -99,7 +99,7 @@ class _PuzzleTile extends State<PuzzleTile> {
 
   Widget _showDash(Explorer explorer) {
     return Container(
-      alignment: _explorerAlignment(explorer),
+      alignment: _explorerAlignment(explorer.currentPath),
       child: SizedBox(
         width: 70,
         height: 70,
@@ -111,9 +111,24 @@ class _PuzzleTile extends State<PuzzleTile> {
     );
   }
 
+  Widget _showDestination(Explorer explorer) {
+    return Container(
+      alignment: _explorerAlignment(explorer.destinationPath),
+      child: SizedBox(
+        width: 80,
+        height: 80,
+        child: Image.asset(
+          '../assets/images/trees_1.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+
   Widget _showArrow(Explorer explorer) {
     return Container(
-        alignment: _arrowAlignment(explorer),
+        alignment: _arrowAlignment(explorer.currentPath),
         child: Transform.rotate(
           angle: _arrowRotation(explorer),
           child: SizedBox(
@@ -150,6 +165,8 @@ class _PuzzleTile extends State<PuzzleTile> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                if (gameState.explorer.destinationTileValue == widget.tile.value)
+                  _showDestination(gameState.explorer),
                 if (gameState.explorer.currentTileValue == widget.tile.value)
                   _showDash(gameState.explorer),
                 if (gameState.explorer.currentTileValue == widget.tile.value)

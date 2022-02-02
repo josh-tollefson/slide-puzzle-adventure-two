@@ -90,6 +90,17 @@ mixin _$GameState on _GameState, Store {
   }
 
   @override
+  void handleReverseExplorer() {
+    final _$actionInfo = _$_GameStateActionController.startAction(
+        name: '_GameState.handleReverseExplorer');
+    try {
+      return super.handleReverseExplorer();
+    } finally {
+      _$_GameStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 numberOfMovesLeft: ${numberOfMovesLeft},
