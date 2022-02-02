@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,7 @@ class PuzzleHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Get Dash Home!',
+              _getDisplayedPuzzleStatus(gameState.puzzleStatus),
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
@@ -26,7 +28,7 @@ class PuzzleHeader extends StatelessWidget {
               ),
             ),
             Text(
-              'Level: 1 | Moves Left: ${gameState.numberOfMovesLeft}',
+              'Level: 1 | Moves Left: ${max(0,gameState.numberOfMovesLeft)}',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
@@ -37,5 +39,23 @@ class PuzzleHeader extends StatelessWidget {
         );
       }
     );
+  }
+
+  String _getDisplayedPuzzleStatus(PuzzleStatus puzzleStatus) {
+    if (puzzleStatus == PuzzleStatus.incomplete) {
+      return 'Get Dash Home!'; 
+    }
+    else if (puzzleStatus == PuzzleStatus.complete) {
+      return 'Dash Returned Home!';
+    }
+    else if (puzzleStatus == PuzzleStatus.lost) {
+      return 'Too many moves! Try again.';
+    }
+    else if (puzzleStatus == PuzzleStatus.offboard) {
+      return 'Dash fell off the world! Try again.';
+    }
+    else {
+      return '';
+    }
   }
 }

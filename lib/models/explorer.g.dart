@@ -54,18 +54,18 @@ mixin _$Explorer on _Explorer, Store {
     });
   }
 
-  final _$forwardDirectionAtom = Atom(name: '_Explorer.forwardDirection');
+  final _$interiorDirectionAtom = Atom(name: '_Explorer.interiorDirection');
 
   @override
-  bool get forwardDirection {
-    _$forwardDirectionAtom.reportRead();
-    return super.forwardDirection;
+  bool get interiorDirection {
+    _$interiorDirectionAtom.reportRead();
+    return super.interiorDirection;
   }
 
   @override
-  set forwardDirection(bool value) {
-    _$forwardDirectionAtom.reportWrite(value, super.forwardDirection, () {
-      super.forwardDirection = value;
+  set interiorDirection(bool value) {
+    _$interiorDirectionAtom.reportWrite(value, super.interiorDirection, () {
+      super.interiorDirection = value;
     });
   }
 
@@ -75,7 +75,7 @@ mixin _$Explorer on _Explorer, Store {
 currentTileValue: ${currentTileValue},
 currentPath: ${currentPath},
 offBoard: ${offBoard},
-forwardDirection: ${forwardDirection}
+interiorDirection: ${interiorDirection}
     ''';
   }
 }

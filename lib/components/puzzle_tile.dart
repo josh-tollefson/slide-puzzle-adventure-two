@@ -73,7 +73,7 @@ class _PuzzleTile extends State<PuzzleTile> {
 
   double _arrowRotation(Explorer explorer)  {
     /// direction the explorer is facing
-    final directionality = explorer.forwardDirection ? 1 : -1;
+    final directionality = explorer.interiorDirection ? 1 : -1;
 
     switch (explorer.currentPath) {
       case 0:

@@ -19,7 +19,7 @@ abstract class _Explorer with Store {
     required this.destinationTileValue,
     required this.destinationPath,
     this.offBoard = false,
-    required this.forwardDirection,
+    required this.interiorDirection,
   });
 
   /// The value of the [Tile] the explorer is currently on.
@@ -43,11 +43,12 @@ abstract class _Explorer with Store {
   @observable
   bool offBoard;
 
-  /// Indicates the direction of the explorer.
+  /// Indicates whether the explorer travels towards its tile's interior
+  /// and onto the other path, or crosses to its adjacent tile.
   /// true = move forward and follow path on current tile
   /// false = reverse and follow path on neighbor tile
   @observable
-  bool forwardDirection;
+  bool interiorDirection;
 
   /// indicated whether the explorer reached its final destination.
   bool get reachedDestination =>

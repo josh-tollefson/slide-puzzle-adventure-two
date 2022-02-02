@@ -12,6 +12,8 @@ import 'package:slide_puzzle_adventure/models/explorer.dart';
 // - Replace B with 'build' (forces a one off build) or 'watch' (builds whenever files change)
 part 'game_state.g.dart';
 
+enum PuzzleStatus { incomplete, complete, lost, offboard }
+
 class GameState = _GameState with _$GameState;
 
 abstract class _GameState with Store {
@@ -25,22 +27,38 @@ abstract class _GameState with Store {
   @observable
   Explorer explorer = Explorer(
     currentTileValue: 1,
-    currentPath: 0,
+    currentPath: 7,
     destinationTileValue: 1,
     destinationPath: 3,
-    forwardDirection: true,
+    interiorDirection: true,
   );
 
   int get puzzleDimension => sqrt(tiles.length).toInt();
+
+  PuzzleStatus get puzzleStatus {
+    if (explorer.offBoard) {
+      return PuzzleStatus.offboard;
+    }
+    else if ((explorer.destinationTileValue == explorer.currentTileValue) &&
+        (explorer.destinationPath == explorer.currentPath)) {
+      return PuzzleStatus.complete;
+    }
+    else if (numberOfMovesLeft < 0) {
+      return PuzzleStatus.lost;
+    }
+    else {
+      return PuzzleStatus.incomplete;
+    }
+  }
 
   void initializeLevel() {
     numberOfMovesLeft = 3;
     explorer = Explorer(
       currentTileValue: 1,
-      currentPath: 0,
+      currentPath: 7,
       destinationTileValue: 1,
       destinationPath: 3,
-      forwardDirection: true,
+      interiorDirection: true,
     );
     tiles = ObservableList();
     tiles.addAll(
@@ -80,7 +98,7 @@ abstract class _GameState with Store {
 
   @action
   void handleMoveExplorer() {
-    _moveExplorerOnce();
+    _moveExplorer();
   }
 
   /// Swap the given (clicked) tile with the whitespace tile in tiles list
@@ -105,7 +123,7 @@ abstract class _GameState with Store {
   }
 
   Tile _getTileFromRowCol(int row, int col) {
-    final tileIndex = col + ( puzzleDimension - 1 ) * row;
+    final tileIndex = col + puzzleDimension * row;
 
     return tiles[tileIndex];
   }
@@ -127,39 +145,47 @@ abstract class _GameState with Store {
     return false;
   }
 
+  void _moveExplorer() {
+    while (true) {
+      final currentTile = _getTileFromValue(explorer.currentTileValue);
+      final currentPath = explorer.currentPath;
+      final nextTile = _getNextTile(currentTile, currentPath);
+
+      if (nextTile == null) {
+        explorer.offBoard = true;
+        break;
+      }
+      else if (nextTile.isWhitespace) {
+        explorer.interiorDirection = true;
+        break;
+      }
+      else {
+        _moveExplorerOnce();
+      }
+    }
+  }
+
   void _moveExplorerOnce() {
 
     final currentTile = _getTileFromValue(explorer.currentTileValue);
     final currentPath = explorer.currentPath;
-    print(explorer.currentTileValue);
-    print(currentTile);
+    final nextTile = _getNextTile(currentTile, currentPath);
 
-    if (explorer.forwardDirection) {
-      explorer.currentTileValue = explorer.currentTileValue;
-      explorer.currentPath = _getNextPath(currentTile, currentPath);
-      print(explorer);
-    }
-
-    else {
-      final nextTile = _getNextTile(currentTile, currentPath);
-      if (nextTile == null) {
-        explorer.offBoard = true;
-      }
-      else if (nextTile.isWhitespace) {
-        explorer.forwardDirection = true;
+    if (nextTile != null && !nextTile.isWhitespace) {
+      if (explorer.interiorDirection) {
+        explorer.currentTileValue = explorer.currentTileValue;
+        explorer.currentPath = _getNextPath(currentTile, currentPath);
+        explorer.interiorDirection = false;
       }
       else {
         explorer.currentTileValue = nextTile.value;
         explorer.currentPath = oppositePath[currentPath] ?? currentPath;
-        explorer.forwardDirection = true;
+        explorer.interiorDirection = true;
       }
     }
-
   }
 
   Tile _getTileFromValue(int tileValue) {
-    print('Tile Value: $tileValue');
-    print(tiles);
     final tile = tiles.singleWhere((t) => tileValue == t.value);
     return tile;
   }
@@ -167,8 +193,13 @@ abstract class _GameState with Store {
   Tile? _getNextTile(Tile tile, int path) {
     final tileIndex = tiles.indexWhere((t) => tile.value == t.value);
     final tileRowCol = _getTileRowCol(tileIndex);
+
     final row = tileRowCol[0];
     final col = tileRowCol[1];
+
+    if (explorer.interiorDirection) {
+      return tile;
+    }
 
     if ({0,1}.contains(path)) {
       return tileRowCol[0] == 0 ? null : _getTileFromRowCol(row - 1, col);
