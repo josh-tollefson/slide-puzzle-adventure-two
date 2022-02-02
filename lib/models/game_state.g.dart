@@ -9,48 +9,18 @@ part of 'game_state.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$GameState on _GameState, Store {
-  final _$numberOfMovesLeftAtom = Atom(name: '_GameState.numberOfMovesLeft');
+  final _$levelAtom = Atom(name: '_GameState.level');
 
   @override
-  int get numberOfMovesLeft {
-    _$numberOfMovesLeftAtom.reportRead();
-    return super.numberOfMovesLeft;
+  Level get level {
+    _$levelAtom.reportRead();
+    return super.level;
   }
 
   @override
-  set numberOfMovesLeft(int value) {
-    _$numberOfMovesLeftAtom.reportWrite(value, super.numberOfMovesLeft, () {
-      super.numberOfMovesLeft = value;
-    });
-  }
-
-  final _$tilesAtom = Atom(name: '_GameState.tiles');
-
-  @override
-  ObservableList<Tile> get tiles {
-    _$tilesAtom.reportRead();
-    return super.tiles;
-  }
-
-  @override
-  set tiles(ObservableList<Tile> value) {
-    _$tilesAtom.reportWrite(value, super.tiles, () {
-      super.tiles = value;
-    });
-  }
-
-  final _$explorerAtom = Atom(name: '_GameState.explorer');
-
-  @override
-  Explorer get explorer {
-    _$explorerAtom.reportRead();
-    return super.explorer;
-  }
-
-  @override
-  set explorer(Explorer value) {
-    _$explorerAtom.reportWrite(value, super.explorer, () {
-      super.explorer = value;
+  set level(Level value) {
+    _$levelAtom.reportWrite(value, super.level, () {
+      super.level = value;
     });
   }
 
@@ -103,9 +73,7 @@ mixin _$GameState on _GameState, Store {
   @override
   String toString() {
     return '''
-numberOfMovesLeft: ${numberOfMovesLeft},
-tiles: ${tiles},
-explorer: ${explorer}
+level: ${level}
     ''';
   }
 }

@@ -132,8 +132,8 @@ class _PuzzleTile extends State<PuzzleTile> {
         child: Transform.rotate(
           angle: _arrowRotation(explorer),
           child: SizedBox(
-            width: 30,
-            height: 30,
+            width: 60,
+            height: 50,
             child: Image.asset(
               '../assets/images/arrow.png',
               fit: BoxFit.cover,
@@ -146,6 +146,7 @@ class _PuzzleTile extends State<PuzzleTile> {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
+    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
@@ -165,12 +166,12 @@ class _PuzzleTile extends State<PuzzleTile> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                if (gameState.explorer.destinationTileValue == widget.tile.value)
-                  _showDestination(gameState.explorer),
-                if (gameState.explorer.currentTileValue == widget.tile.value)
-                  _showDash(gameState.explorer),
-                if (gameState.explorer.currentTileValue == widget.tile.value)
-                  _showArrow(gameState.explorer),
+                if (currentLevel.explorer.destinationTileValue == widget.tile.value)
+                  _showDestination(currentLevel.explorer),
+                if (currentLevel.explorer.currentTileValue == widget.tile.value)
+                  _showDash(currentLevel.explorer),
+                if (currentLevel.explorer.currentTileValue == widget.tile.value)
+                  _showArrow(currentLevel.explorer),
                 if (isHovering)
                   Container(
                     margin: EdgeInsets.zero,

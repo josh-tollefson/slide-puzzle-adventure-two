@@ -14,12 +14,12 @@ class Explorer = _Explorer with _$Explorer;
 
 abstract class _Explorer with Store {
   _Explorer({
-    required this.currentTileValue,
-    required this.currentPath,
-    required this.destinationTileValue,
-    required this.destinationPath,
+    this.currentTileValue = 0,
+    this.currentPath = 0,
+    this.destinationTileValue = 0,
+    this.destinationPath = 0,
     this.offBoard = false,
-    required this.interiorDirection,
+    this.interiorDirection = true,
   });
 
   /// The value of the [Tile] the explorer is currently on.
@@ -31,10 +31,10 @@ abstract class _Explorer with Store {
   int currentPath;
 
   /// The value of the [Tile] the explorer must end on.
-  final int destinationTileValue;
+  int destinationTileValue;
 
   /// The path value of the destinationTile the explorer must end on.
-  final int destinationPath;
+  int destinationPath;
 
   // /// the next path on the current tile following the current path
   // int get nextPath => currentTile.paths[currentPath] ?? currentPath;

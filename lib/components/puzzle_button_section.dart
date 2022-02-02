@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_puzzle_adventure/models/game_state.dart';
+import 'package:slide_puzzle_adventure/models/level.dart';
 import 'package:slide_puzzle_adventure/theme/themes.dart';
 
 class PuzzleButtonsSection extends StatelessWidget {
@@ -9,12 +11,22 @@ class PuzzleButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: const [
-          _MoveExplorerButton(),
-          _ReverseExplorerButton(),
-          _ResetPuzzleButton(),
-          ],
+    final gameState = Provider.of<GameState>(context);
+    final currentLevel = gameState.level;
+
+    return Observer(
+      builder: (context) {
+        switch (currentLevel.levelStatus) {
+          case LevelStatus.incomplete:
+            return const _IncompleteLevelButtons();
+          case LevelStatus.complete:
+            return const _CompletedLevelButtons();
+          case LevelStatus.lost:
+            return const _LostLevelButtons();
+          case LevelStatus.offboard:
+            return const _LostLevelButtons();
+        }
+      }
     );
   }
 }
@@ -43,7 +55,7 @@ class _PuzzleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 145,
+      width: 300,
       height: 44,
       child: TextButton(
         style: TextButton.styleFrom(
@@ -63,6 +75,55 @@ class _PuzzleButton extends StatelessWidget {
   }
 }
 
+class _IncompleteLevelButtons extends StatelessWidget {
+  const _IncompleteLevelButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              _MoveExplorerButton(),
+              _ReverseExplorerButton(),
+            ],
+          ),
+         const  _ResetPuzzleButton(),
+        ],
+    );
+  }
+}
+
+class _CompletedLevelButtons extends StatelessWidget {
+  const _CompletedLevelButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        _NextLevelButton(),
+      ],
+    );
+  }
+}
+
+class _LostLevelButtons extends StatelessWidget {
+  const _LostLevelButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        _ResetPuzzleButton(),
+      ],
+    );
+  }
+}
+
+
+
+
 class _MoveExplorerButton extends StatelessWidget {
   const _MoveExplorerButton({Key? key}) : super(key: key);
 
@@ -81,8 +142,8 @@ class _MoveExplorerButton extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/simple_dash_small.png',
-            width: 17,
-            height: 17,
+            width: 50,
+            height: 50,
           ),
           const Gap(10),
           const Text('Move Dash'),
@@ -110,8 +171,8 @@ class _ReverseExplorerButton extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/arrow.png',
-            width: 17,
-            height: 17,
+            width: 50,
+            height: 50,
           ),
           const Gap(10),
           const Text('Reverse Dash\'s Direction'),
@@ -145,6 +206,29 @@ class _ResetPuzzleButton extends StatelessWidget {
           ),
           const Gap(10),
           const Text('Reset Level'),
+        ],
+      ),
+    );
+  }
+}
+
+class _NextLevelButton extends StatelessWidget {
+  const _NextLevelButton({Key? key}) : super(key: key);
+
+  final theme = const AntiqueMapTheme();
+
+  @override
+  Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context);
+
+    return _PuzzleButton(
+      textColor: theme.textColor,
+      backgroundColor: theme.buttonColor,
+      onPressed: () => {},
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text('Next Level'),
         ],
       ),
     );

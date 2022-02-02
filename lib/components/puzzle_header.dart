@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_puzzle_adventure/models/game_state.dart';
+import 'package:slide_puzzle_adventure/models/level.dart';
 
 /// Displays the puzzle name, level, and number of moves remaining
 class PuzzleHeader extends StatelessWidget {
@@ -12,6 +13,7 @@ class PuzzleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
+    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
@@ -20,7 +22,7 @@ class PuzzleHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _getDisplayedPuzzleStatus(gameState.puzzleStatus),
+              _getDisplayedPuzzleStatus(currentLevel.levelStatus),
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
@@ -28,7 +30,7 @@ class PuzzleHeader extends StatelessWidget {
               ),
             ),
             Text(
-              'Level: 1 | Moves Left: ${max(0,gameState.numberOfMovesLeft)}',
+              'Level: 1 | Moves Left: ${max(0,currentLevel.numberOfMovesLeft)}',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
@@ -41,17 +43,17 @@ class PuzzleHeader extends StatelessWidget {
     );
   }
 
-  String _getDisplayedPuzzleStatus(PuzzleStatus puzzleStatus) {
-    if (puzzleStatus == PuzzleStatus.incomplete) {
+  String _getDisplayedPuzzleStatus(LevelStatus puzzleStatus) {
+    if (puzzleStatus == LevelStatus.incomplete) {
       return 'Get Dash Home!'; 
     }
-    else if (puzzleStatus == PuzzleStatus.complete) {
+    else if (puzzleStatus == LevelStatus.complete) {
       return 'Dash Returned Home!';
     }
-    else if (puzzleStatus == PuzzleStatus.lost) {
+    else if (puzzleStatus == LevelStatus.lost) {
       return 'Too many moves! Try again.';
     }
-    else if (puzzleStatus == PuzzleStatus.offboard) {
+    else if (puzzleStatus == LevelStatus.offboard) {
       return 'Dash fell off the world! Try again.';
     }
     else {
