@@ -28,7 +28,7 @@ class PuzzleHeader extends StatelessObserverWidget {
           ),
         ),
         Text(
-          'Level: 1 | Moves Left: ${max(0,currentLevel.numberOfMovesLeft)}',
+          'Level: ${gameState.levelNumber} | Moves Left: ${max(0,currentLevel.numberOfMovesLeft)}',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w300,
