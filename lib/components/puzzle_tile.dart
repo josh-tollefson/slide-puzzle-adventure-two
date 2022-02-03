@@ -7,7 +7,7 @@ import 'package:slide_puzzle_adventure/models/game_state.dart';
 import 'package:slide_puzzle_adventure/models/tile.dart';
 import 'package:slide_puzzle_adventure/models/explorer.dart';
 
-class PuzzleTile extends StatefulWidget {
+class PuzzleTile extends StatefulObserverWidget {
   /// {@macro simple_puzzle_tile}
   const PuzzleTile({
     Key? key,
@@ -146,46 +146,41 @@ class _PuzzleTile extends State<PuzzleTile> {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
+    final currentLevel = gameState.level;
 
-    return Observer(
-      builder: (context) {
-        final currentLevel = gameState.level;
-
-        return MouseRegion(
-            onEnter: (PointerEvent details) => setState(() => isHovering = true),
-            onExit: (PointerEvent details) => setState(() => isHovering = false),
-            child: GestureDetector(
-              onTap: () => gameState.handleTileTapped(widget.tile.value),
-              child: Stack(children: [
-                // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
-                if (!widget.tile.isWhitespace)
-                  SizedBox(
-                    width: 250,
-                    height: 250,
-                    child: Image.asset(
-                      widget.tile.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                if (currentLevel.explorer.destinationTileValue == widget.tile.value)
-                  _showDestination(currentLevel.explorer),
-                if (currentLevel.explorer.currentTileValue == widget.tile.value)
-                  _showDash(currentLevel.explorer),
-                if (currentLevel.explorer.currentTileValue == widget.tile.value)
-                  _showArrow(currentLevel.explorer),
-                if (isHovering)
-                  Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent),
-                    ),
-                  ),
-              ],
+    return MouseRegion(
+        onEnter: (PointerEvent details) => setState(() => isHovering = true),
+        onExit: (PointerEvent details) => setState(() => isHovering = false),
+        child: GestureDetector(
+          onTap: () => gameState.handleTileTapped(widget.tile.value),
+          child: Stack(children: [
+            // TODO: We shouldn't need to specify SizedBox, layout is a bit janky right now.
+            if (!widget.tile.isWhitespace)
+              SizedBox(
+                width: 250,
+                height: 250,
+                child: Image.asset(
+                  widget.tile.image,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-        );
-      }
+            if (currentLevel.explorer.destinationTileValue == widget.tile.value)
+              _showDestination(currentLevel.explorer),
+            if (currentLevel.explorer.currentTileValue == widget.tile.value)
+              _showDash(currentLevel.explorer),
+            if (currentLevel.explorer.currentTileValue == widget.tile.value)
+              _showArrow(currentLevel.explorer),
+            if (isHovering)
+              Container(
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blueAccent),
+                ),
+              ),
+          ],
+          ),
+        ),
     );
   }
 }

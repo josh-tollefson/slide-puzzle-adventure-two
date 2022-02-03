@@ -6,29 +6,24 @@ import 'package:slide_puzzle_adventure/models/game_state.dart';
 import 'package:slide_puzzle_adventure/models/level.dart';
 import 'package:slide_puzzle_adventure/theme/themes.dart';
 
-class PuzzleButtonsSection extends StatelessWidget {
+class PuzzleButtonsSection extends StatelessObserverWidget {
   const PuzzleButtonsSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
+    final currentLevel = gameState.level;
 
-    return Observer(
-      builder: (context) {
-        final currentLevel = gameState.level;
-
-        switch (currentLevel.levelStatus) {
-          case LevelStatus.incomplete:
-            return const _IncompleteLevelButtons();
-          case LevelStatus.complete:
-            return const _CompletedLevelButtons();
-          case LevelStatus.lost:
-            return const _LostLevelButtons();
-          case LevelStatus.offboard:
-            return const _LostLevelButtons();
-        }
-      }
-    );
+    switch (currentLevel.levelStatus) {
+      case LevelStatus.incomplete:
+        return const _IncompleteLevelButtons();
+      case LevelStatus.complete:
+        return const _CompletedLevelButtons();
+      case LevelStatus.lost:
+        return const _LostLevelButtons();
+      case LevelStatus.offboard:
+        return const _LostLevelButtons();
+    }
   }
 }
 
