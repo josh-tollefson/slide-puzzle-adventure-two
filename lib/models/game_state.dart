@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:mobx/mobx.dart';
-import 'package:slide_puzzle_adventure/models/tile.dart';
 import 'package:slide_puzzle_adventure/models/explorer.dart';
 import 'package:slide_puzzle_adventure/models/level.dart';
 import 'package:slide_puzzle_adventure/services/level_loader.dart';
@@ -57,5 +54,12 @@ abstract class _GameState with Store {
   void handleReverseExplorer() {
     level.explorer.interiorDirection = !level.explorer.interiorDirection;
   }
+
+  @action
+  void handleNextLevel() {
+    levelNumber++;
+    initializeLevel();
+  }
+
 
 }

@@ -146,10 +146,11 @@ class _PuzzleTile extends State<PuzzleTile> {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
-    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
+        final currentLevel = gameState.level;
+
         return MouseRegion(
             onEnter: (PointerEvent details) => setState(() => isHovering = true),
             onExit: (PointerEvent details) => setState(() => isHovering = false),

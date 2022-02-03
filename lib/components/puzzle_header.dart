@@ -13,10 +13,11 @@ class PuzzleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
-    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
+        final currentLevel = gameState.level;
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

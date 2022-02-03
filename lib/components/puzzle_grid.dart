@@ -12,7 +12,6 @@ class PuzzleGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
-    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
@@ -23,7 +22,7 @@ class PuzzleGrid extends StatelessWidget {
           crossAxisCount: 2,
           mainAxisSpacing: 0,
           crossAxisSpacing: 0,
-          children: currentLevel.tiles.map((t) => PuzzleTile(tile: t)).toList(),
+          children: gameState.level.tiles.map((t) => PuzzleTile(tile: t)).toList(),
         );
       }
     );

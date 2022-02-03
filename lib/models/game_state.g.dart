@@ -86,6 +86,17 @@ mixin _$GameState on _GameState, Store {
   }
 
   @override
+  void handleNextLevel() {
+    final _$actionInfo = _$_GameStateActionController.startAction(
+        name: '_GameState.handleNextLevel');
+    try {
+      return super.handleNextLevel();
+    } finally {
+      _$_GameStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 level: ${level},

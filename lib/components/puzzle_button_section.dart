@@ -12,10 +12,11 @@ class PuzzleButtonsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
-    final currentLevel = gameState.level;
 
     return Observer(
       builder: (context) {
+        final currentLevel = gameState.level;
+
         switch (currentLevel.levelStatus) {
           case LevelStatus.incomplete:
             return const _IncompleteLevelButtons();
@@ -224,7 +225,7 @@ class _NextLevelButton extends StatelessWidget {
     return _PuzzleButton(
       textColor: theme.textColor,
       backgroundColor: theme.buttonColor,
-      onPressed: () => {},
+      onPressed: () => gameState.handleNextLevel(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
